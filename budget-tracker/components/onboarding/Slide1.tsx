@@ -1,4 +1,5 @@
 "use client";
+
 import { User } from "@/types/User";
 import {
   Form,
@@ -8,37 +9,58 @@ import {
   TextField,
   Select,
   ListBox,
+  Button,
 } from "@heroui/react";
+
+type AppState = "start" | "home";
+
 type FirstSlideProps = {
   user: User;
+  onAppChange: (state: AppState) => void;
   editUserField: <K extends keyof User>(key: K, value: User[K]) => void;
 };
-const STATUS = ["single", "in a relationship", "married"];
-const JOB = ["part-time", "indeterminated", "unemployed"];
-export default function FirstSlide({ user, editUserField }: FirstSlideProps) {
+
+const STATUS = ["single", "in a relationship", "married"] as const;
+
+const JOB = ["part-time", "indeterminated", "unemployed"] as const;
+
+export default function FirstSlide({
+  user,
+  editUserField,
+  onAppChange,
+}: FirstSlideProps) {
   return (
     <Form className="flex flex-col gap-4">
       <TextField isRequired name="name" type="text">
         <Label>Full Name</Label>
+
         <Input
           value={user.name}
           onChange={(e) => editUserField("name", e.target.value)}
-          placeholder="Alessio Galtelli"
+          placeholder="Full name"
           variant="secondary"
         />
       </TextField>
 
-      <Select variant="secondary">
+      <Select
+        variant="secondary"
+        selectedKey={user.status}
+        onSelectionChange={(value) =>
+          editUserField("status", value as User["status"])
+        }
+      >
         <Label>Status</Label>
+
         <Select.Trigger>
           <Select.Value />
           <Select.Indicator />
         </Select.Trigger>
+
         <Select.Popover>
           <ListBox>
-            {STATUS.map((s, i) => (
-              <ListBox.Item id={s}>
-                {s}
+            {STATUS.map((status) => (
+              <ListBox.Item key={status} id={status}>
+                {status}
                 <ListBox.ItemIndicator />
               </ListBox.Item>
             ))}
@@ -46,17 +68,25 @@ export default function FirstSlide({ user, editUserField }: FirstSlideProps) {
         </Select.Popover>
       </Select>
 
-      <Select variant="secondary">
+      <Select
+        variant="secondary"
+        selectedKey={user.job}
+        onSelectionChange={(value) =>
+          editUserField("job", value as User["job"])
+        }
+      >
         <Label>Job</Label>
+
         <Select.Trigger>
           <Select.Value />
           <Select.Indicator />
         </Select.Trigger>
+
         <Select.Popover>
           <ListBox>
-            {JOB.map((s, i) => (
-              <ListBox.Item id={s}>
-                {s}
+            {JOB.map((job) => (
+              <ListBox.Item key={job} id={job}>
+                {job}
                 <ListBox.ItemIndicator />
               </ListBox.Item>
             ))}
@@ -71,7 +101,8 @@ export default function FirstSlide({ user, editUserField }: FirstSlideProps) {
         value={user.annualIncome}
         onChange={(value) => editUserField("annualIncome", value ?? 0)}
       >
-        <Label>Income</Label>
+        <Label>Yearly Income</Label>
+
         <NumberField.Group>
           <NumberField.DecrementButton />
           <NumberField.Input />
@@ -82,11 +113,12 @@ export default function FirstSlide({ user, editUserField }: FirstSlideProps) {
       <NumberField
         variant="secondary"
         isRequired
-        name="annualIncome"
-        value={user.annualIncome}
-        onChange={(value) => editUserField("annualIncome", value ?? 0)}
+        name="savings"
+        value={user.savings}
+        onChange={(value) => editUserField("savings", value ?? 0)}
       >
         <Label>Savings</Label>
+
         <NumberField.Group>
           <NumberField.DecrementButton />
           <NumberField.Input />
@@ -97,11 +129,12 @@ export default function FirstSlide({ user, editUserField }: FirstSlideProps) {
       <NumberField
         variant="secondary"
         isRequired
-        name="annualIncome"
-        value={user.annualIncome}
-        onChange={(value) => editUserField("annualIncome", value ?? 0)}
+        name="debt"
+        value={user.debt}
+        onChange={(value) => editUserField("debt", value ?? 0)}
       >
         <Label>Debt</Label>
+
         <NumberField.Group>
           <NumberField.DecrementButton />
           <NumberField.Input />
@@ -112,17 +145,22 @@ export default function FirstSlide({ user, editUserField }: FirstSlideProps) {
       <NumberField
         variant="secondary"
         isRequired
-        name="annualIncome"
-        value={user.annualIncome}
-        onChange={(value) => editUserField("annualIncome", value ?? 0)}
+        name="investments"
+        value={user.investments}
+        onChange={(value) => editUserField("investments", value ?? 0)}
       >
         <Label>Investments</Label>
+
         <NumberField.Group>
           <NumberField.DecrementButton />
           <NumberField.Input />
           <NumberField.IncrementButton />
         </NumberField.Group>
       </NumberField>
+
+      <Button fullWidth className="mt-2" onClick={() => onAppChange("home")}>
+        Continue
+      </Button>
     </Form>
   );
 }
