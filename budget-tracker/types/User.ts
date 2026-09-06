@@ -3,7 +3,7 @@ export type User = {
   annualIncome: number;
   monthlyIncome?: number;
 
-  job: string;
+  job: "part-time" | "indeterminated" | "unemployed";
 
   debt: number;
   savings: number;
