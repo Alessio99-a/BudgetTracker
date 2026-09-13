@@ -20,9 +20,7 @@ type FirstSlideProps = {
   editUserField: <K extends keyof User>(key: K, value: User[K]) => void;
 };
 
-const STATUS = ["single", "in a relationship", "married"] as const;
-
-const JOB = ["part-time", "indeterminated", "unemployed"] as const;
+const GOALS = ["savings", "investment", "debt-free"] as const;
 
 export default function FirstSlide({
   user,
@@ -30,7 +28,13 @@ export default function FirstSlide({
   onAppChange,
 }: FirstSlideProps) {
   return (
-    <Form className="flex flex-col gap-4">
+    <Form
+      className="flex flex-col gap-4"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onAppChange("home");
+      }}
+    >
       <TextField isRequired name="name" type="text">
         <Label>Full Name</Label>
 
@@ -41,59 +45,6 @@ export default function FirstSlide({
           variant="secondary"
         />
       </TextField>
-
-      <Select
-        variant="secondary"
-        selectedKey={user.status}
-        onSelectionChange={(value) =>
-          editUserField("status", value as User["status"])
-        }
-      >
-        <Label>Status</Label>
-
-        <Select.Trigger>
-          <Select.Value />
-          <Select.Indicator />
-        </Select.Trigger>
-
-        <Select.Popover>
-          <ListBox>
-            {STATUS.map((status) => (
-              <ListBox.Item key={status} id={status}>
-                {status}
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            ))}
-          </ListBox>
-        </Select.Popover>
-      </Select>
-
-      <Select
-        variant="secondary"
-        selectedKey={user.job}
-        onSelectionChange={(value) =>
-          editUserField("job", value as User["job"])
-        }
-      >
-        <Label>Job</Label>
-
-        <Select.Trigger>
-          <Select.Value />
-          <Select.Indicator />
-        </Select.Trigger>
-
-        <Select.Popover>
-          <ListBox>
-            {JOB.map((job) => (
-              <ListBox.Item key={job} id={job}>
-                {job}
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            ))}
-          </ListBox>
-        </Select.Popover>
-      </Select>
-
       <NumberField
         variant="secondary"
         isRequired
@@ -150,7 +101,6 @@ export default function FirstSlide({
         onChange={(value) => editUserField("investments", value ?? 0)}
       >
         <Label>Investments</Label>
-
         <NumberField.Group>
           <NumberField.DecrementButton />
           <NumberField.Input />
@@ -158,7 +108,48 @@ export default function FirstSlide({
         </NumberField.Group>
       </NumberField>
 
-      <Button fullWidth className="mt-2" onClick={() => onAppChange("home")}>
+      <NumberField
+        variant="secondary"
+        isRequired
+        name="housingExpenses"
+        value={user.housingExpenses}
+        onChange={(value) => editUserField("housingExpenses", value ?? 0)}
+      >
+        <Label>Housing expenses</Label>
+        <NumberField.Group>
+          <NumberField.DecrementButton />
+          <NumberField.Input />
+          <NumberField.IncrementButton />
+        </NumberField.Group>
+      </NumberField>
+
+      <Select
+        variant="secondary"
+        selectedKey={user.goal}
+        onSelectionChange={(value) =>
+          editUserField("goal", value as User["goal"])
+        }
+      >
+        <Label>Goal</Label>
+
+        <Select.Trigger>
+          <Select.Value />
+          <Select.Indicator />
+        </Select.Trigger>
+
+        <Select.Popover>
+          <ListBox>
+            {GOALS.map((goal) => (
+              <ListBox.Item key={goal} id={goal}>
+                {goal}
+                <ListBox.ItemIndicator />
+              </ListBox.Item>
+            ))}
+          </ListBox>
+        </Select.Popover>
+      </Select>
+
+      <Button fullWidth className="mt-2" type="submit">
         Continue
       </Button>
     </Form>
