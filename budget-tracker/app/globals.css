@@ -44,8 +44,7 @@
   --field-radius: 0.75rem;
 
   /* Font Family */
-  /* Make sure to load Inter font in your app */
-  --font-sans: var(--font-inter);
+  --font-sans: Arial, Helvetica, sans-serif;
 }
 
 .dark,
@@ -87,4 +86,19 @@
 
 body {
   background-color: var(--background);
+}
+
+.app-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--field-background);
+  color: var(--field-foreground);
+  padding: 0.75rem 0.875rem;
+  outline: none;
+}
+
+.app-input:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--focus) 18%, transparent);
 }

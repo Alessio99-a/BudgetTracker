@@ -1,0 +1,161 @@
+Yep — that's basically the right workflow. Since you're building a personal portfolio, I'd recommend keeping it simple.
+
+ ## A good GitHub workflow
+
+ Let's say you created a GitHub issue:
+
+ > **Issue #12 — Add dark mode**
+
+ ### 1\. Create a branch for the issue
+
+ From your local project:
+
+```
+git checkout main
+git pull
+git checkout -b 12-add-dark-mode
+```
+
+ The branch name can be whatever you want. Including the issue number is a nice habit.
+
+ Your branches might look like:
+
+```
+main
+└── 12-add-dark-mode
+```
+
+ ### 2\. Work on the feature
+
+ Make your changes, test them, etc.
+
+ Then:
+
+```
+git status
+git add .
+git commit -m "Add dark mode"
+```
+
+ You can make multiple commits if the work is substantial.
+
+ ### 3\. Push the branch
+
+ The first time:
+
+```
+git push -u origin 12-add-dark-mode
+```
+
+ Now GitHub will have your branch.
+
+```
+GitHub
+├── main
+└── 12-add-dark-mode
+```
+
+ ### 4\. Open a Pull Request
+
+ On GitHub, you'll see an option to create a PR.
+
+ Your PR should be:
+
+```
+base: main
+compare: 12-add-dark-mode
+```
+
+ Give it a useful title, e.g.:
+
+ > Add dark mode
+
+ In the description, you can say:
+
+ > Closes #12
+
+ That tells GitHub that when the PR is merged, **Issue #12 should automatically be closed**.
+
+ ### 5\. Merge the PR
+
+ Once you're happy with it, merge the PR into `main`.
+
+ Now:
+
+```
+main
+   ↑
+   │ merge
+   │
+12-add-dark-mode
+```
+
+ ### 6\. Update your local `main`
+
+ After merging:
+
+```
+git checkout main
+git pull
+```
+
+ Your local `main` now contains the feature.
+
+ ### 7\. Delete the old branch
+
+ Since you're done with it:
+
+```
+git branch -d 12-add-dark-mode
+```
+
+ You can also delete the branch on GitHub through the PR page.
+
+---
+
+ ## Then repeat
+
+ For your next issue:
+
+```
+git checkout main
+git pull
+git checkout -b 13-add-contact-form
+```
+
+ Work → commit → push → PR → merge → pull → delete branch.
+
+ So your overall cycle is:
+
+```
+GitHub Issue
+     ↓
+Create branch
+     ↓
+Work
+     ↓
+Commit
+     ↓
+Push branch
+     ↓
+Open Pull Request
+     ↓
+Review/test
+     ↓
+Merge into main
+     ↓
+git checkout main
+git pull
+     ↓
+Delete branch
+     ↓
+Next issue
+```
+
+ ### One important thing
+
+ **Don't normally work directly on `main`.**
+
+ Think of `main` as your "known good" version of the portfolio, while each issue gets its own temporary workspace/branch.
+
+ For a personal project, this workflow is more than enough. You don't need to learn complicated Git workflows yet.

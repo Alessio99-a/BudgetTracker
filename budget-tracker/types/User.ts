@@ -2,8 +2,7 @@ export type User = {
   name: string;
   annualIncome: number;
   monthlyIncome?: number;
-
-  job: "part-time" | "indeterminated" | "unemployed";
+  housingExpenses: number;
 
   debt: number;
   savings: number;
@@ -11,14 +10,14 @@ export type User = {
 
   status: "married" | "single" | "in a relationship";
 
-  goals: Goal[];
+  goal: "savings" | "investment" | "debt-free";
 };
 
-export type Goal = {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  deadline?: string;
-  priority: "low" | "medium" | "high";
-};
+// export type Goal = {
+//   id: string;
+//   name: string;
+//   targetAmount: number;
+//   currentAmount: number;
+//   deadline?: string;
+//   priority: "low" | "medium" | "high";
+// };
